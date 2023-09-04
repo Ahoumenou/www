@@ -28,10 +28,24 @@ class AlbumModel
         $pdo = self::getConnexion();
         if ($pdo !== null) {
             try {
+                ## utilisation de marqueurs de substitution
+                // $sql = "INSERT INTO `albums` (`title`, `artiste`) VALUES (?,?);";
+                //    // prepare statement(fr: requête préparé)
+                //    $stmt = $pdo->prepare($sql);
+                //   $albumAdded = $stmt->execute([$title, $artiste]); // exécuter la requête 
 
+                ## utilisation de marqueurs nommés
+                $sql = "INSERT INTO albums (title, artiste) VALUES (:t, :a)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ":t" => $title,
+                    ":a" => $artiste
+                ]);
+                return true;
+              
             } catch (\PDOException $e) {
                 echo "Erreur: " . $e->getMessage();
-                return [];
+                return false;
             }
            
         }
@@ -72,16 +86,18 @@ class AlbumModel
     }
 
     // Meeode pour recuperer un album spécifique (Read) 
-    public static function getAlbumById(int $Id)
+    public static function getAlbumById(int $id)
     {
         // recuperer l'objet de connexion à la BDD
         $pdo = self::getConnexion();
         if ($pdo !== null) {
             try {
-                $sql = "SELECT * FROM albums WHERE id = $Id;";
+                $sql = "SELECT * FROM albums WHERE id = :id;";
                 // prepare statement(fr: requête préparé)
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute();
+                $stmt->execute([":id" => $id ]);
+                // return $stmt->fetchAll()[0];
+                return $stmt->fetch();
 
             } catch (\PDOException $e) {
                 echo "Erreur: " . $e->getMessage();
@@ -98,13 +114,18 @@ class AlbumModel
         $pdo = self::getConnexion();
         if ($pdo !== null) {
             try {
-                $sql = "UPDATE `albums` SET `title` = $title, `artiste` = $artiste WHERE `albums`.`id` = $id";
+                $sql = "UPDATE `albums` SET `title` = :title, `artiste` = :artiste WHERE `albums`.`id` = :id";
                 // prepare statement(fr: requête préparé)
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute();
+                $stmt->execute([
+                    ":title" => $title,
+                    ":artiste" => $artiste,
+                    ":id" => $id
+            ]);
+                return true;
             } catch (\PDOException $e) {
                 echo "Erreur: " . $e->getMessage();
-                return [];
+                return false;
             }
            
         }
@@ -117,13 +138,14 @@ class AlbumModel
         $pdo = self::getConnexion();
         if ($pdo !== null) {
             try {
-                $sql = "DELETE FROM albums WHERE `albums`.`id` = $id";
+                $sql = "DELETE FROM albums WHERE `albums`.`id` = :id;";
                 // prepare statement(fr: requête préparé)
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute();
+                $stmt->execute([":id" => $id]);
+                return true;
             } catch (\PDOException $e) {
                 echo "Erreur: " . $e->getMessage();
-                return [];
+                return false;
             }
            
         }

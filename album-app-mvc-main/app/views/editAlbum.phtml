@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <pre>
+        <?= print_r($album) ?>
+    </pre>
+<h2>Editer l'album</h2>
+    <form action="/update" method="post">
+        <input type="hidden" name="id" value="<?= $album["id"]?>">
+        <input type="text" name="title" placeholder="Titre..." value="<?= $album["title"]?>">
+        <input type="text" name="artiste" placeholder="Artiste" value="<?= $album["artiste"]?>">
+        <input type="submit" value="Mettre à jour">
+    </form>
+</body>
+</html>

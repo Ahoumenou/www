@@ -7,34 +7,56 @@ require "../config/config.php";
 require('../app/controllers/AlbumController.php');
 
 // canstante qui sauvegarde le chemin de base de l'application
-
 $controller = new AlbumController();
-$controller->home();
-
+// $controller->home();
 
 $request = $_SERVER['REQUEST_URI'];
+$debutChaineDeRequete = strpos($request, "?");
+
+if ($debutChaineDeRequete !== false) {
+    $request = substr($request, 0, $debutChaineDeRequete);
+}
+
 // p, vérifie qu'il y a une chaîne de requête
 $queryString = strpos($request, "?"); // 
-echo $queryString;
+
 
 if ($queryString) {
+    $request = substr($request, 0, $queryString); // Trouver la première occurence de action 
     echo (strpos($request, "action=")); // trouver la première occurence de action=
 }
 
-exit();
-if ($request === "/") {
+
+if ($request === "/home" || $request === "/") {
     # code...
     $controller->home();
-}elseif ($request === '/edit') {
+}elseif ($request === '/add') {
+    $controller->store($_POST['title'], $_POST['artiste']);
+
+    echo "Albm ajouté";
+
+    // 301: redirection permanente
+    // 302 : redirection temporaire
+    header("HTTP/1.1 302 Found");
+    header('Location :/');
+}
+elseif ($request === '/edit') {
     # code...
+    $id = (int) $_GET['id'];
+    $controller->edit($id);
+        echo "Edition du formulaire";
 }elseif ($request === '/update') {
     # code...
-}elseif ($request === '/add') {
-    # code...
+    $id = $_POST['id'];
+    $title = $_POST['title'];
+    $artiste = $_POST['artiste'];
+    $controller->update($id, $title, $artiste);
 }elseif ($request === '/delete') {
     # code...
-}elseif ($request === '/delete') {
-    # code...
+    $id = $_GET["id"]; // identifiant à supprimer
+    $controller->destroy($id);
+    echo "En cours de suppression de l'album";
+
 }
 else {
     // echo " 404 Not Found";
@@ -48,9 +70,6 @@ else {
  * toutes les constantes magiques commecent par deux tirets de 8 ( __ )
  */
 // echo __DIR__;
-
-
-
 
 // $user = "smk";
 

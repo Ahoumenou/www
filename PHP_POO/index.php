@@ -45,3 +45,13 @@ $u1->nom = "Jasmin"; // changement de valeur
 echo $u1->present();
 // echo $u1->self::pieds;
 
+// Namespace | Espace de noms
+
+function array_split(string $str){
+    echo "Bonjour $str";
+}
+
+array_split("Marthieu");
+
+
+

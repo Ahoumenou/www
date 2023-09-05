@@ -11,14 +11,19 @@ $controller = new AlbumController();
 // $controller->home();
 
 $request = $_SERVER['REQUEST_URI'];
+echo "<pre>";
+print_r($_SERVER);
+echo "</pre>";
 $debutChaineDeRequete = strpos($request, "?");
-
+// echo $debutChaineDeRequete;
 if ($debutChaineDeRequete !== false) {
     $request = substr($request, 0, $debutChaineDeRequete);
+    echo $request;
 }
 
 // p, vérifie qu'il y a une chaîne de requête
 $queryString = strpos($request, "?"); // 
+
 
 
 if ($queryString) {

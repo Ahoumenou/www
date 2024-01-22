@@ -47,6 +47,11 @@ echo MaClass::$proprieteStatique;
 - Créez une classe ` Employee` . elle a une méthode `work` qui affiche "Je travaille" 
 - Créez une classe ` Programmer` . elle a une méthode `code` qui affiche "Je suis un programmeur" 
 
+## Errors
+
+- error  : bloque l'execution du programme
+- Exeption : Exécute le programme
+
 - Standards de Codage & PSR4
 - Constantes de classes
 - Propriétés et Méthodes Statiques
